@@ -1,0 +1,13 @@
+{
+  "name": "0sunnet",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/0sunman/0sunnet.git",
+  "author": "0sun",
+  "license": "MIT",
+  "private":"true",
+  "workspaces":["client","server"],
+  "scripts": {
+    "client":""
+  }
+}
