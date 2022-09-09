@@ -3,6 +3,8 @@ import Head from "next/head";
 import {Button, Checkbox, Form, Input} from "antd";
 import { useCallback, useEffect, useState } from "react";
 import useInput from "../hooks/useInput.js";
+import { useDispatch, useSelector } from "react-redux";
+import { SIGN_UP_REQUEST } from "../reducers/user.js";
 /**
  * 
  * Hook 조건 : 컴포넌트 안에서 만들것
@@ -16,8 +18,11 @@ import useInput from "../hooks/useInput.js";
  * => 이 원리를 통해 메모리를 절약함 
  * **/
 const Signup = ({setLoggedIn}) => {
+    const dispatch = useDispatch();
+    const {signUpLoading} = useSelector(({user})=>user)
+
     const [
-        [id,onChangeId],
+        [email,onChangeEmail],
         [nickname,onChangeNickname],
         [password,onChangePassword],
         [passwordCheck,setPasswordCheck],
@@ -33,7 +38,7 @@ const Signup = ({setLoggedIn}) => {
         useState(false),
         useState(false),
     ]
-    const data = {id,nickname,password}
+    const data = {email,nickname,password}
     const onSubmitForm = useCallback(()=>{
         if(password !== passwordCheck){ 
             setPasswordError(true);
@@ -43,13 +48,18 @@ const Signup = ({setLoggedIn}) => {
             setTermError(true)
             return;
         }
+        dispatch({
+            type:SIGN_UP_REQUEST,
+            data:{email,password,nickname}
+        })
+
         console.log( data)
 
     },[password,passwordCheck,term])
 
     useEffect(()=>{
-        console.log(id,password);
-    },[id,password])
+        console.log(email,password);
+    },[email,password])
     const onChangePasswordCheck = useCallback((e)=>{
         setPasswordCheck(e.target.value);
         setPasswordError(e.target.value !== password);
@@ -67,8 +77,8 @@ const Signup = ({setLoggedIn}) => {
             <AppLayout>
                 <Form onFinish={onSubmitForm}>
                     <div>
-                        <label htmlFor="user-id">ID</label>
-                        <Input id="user-id" value={id} onChange={onChangeId} required></Input>
+                        <label htmlFor="user-email">email</label>
+                        <Input email="user-email" value={email} onChange={onChangeEmail} required></Input>
                     </div>
                     <div>
                         <label htmlFor="user-nickname">Nickname</label>

@@ -4,14 +4,15 @@ import "tailwindcss/tailwind.css";
 import wrapper from '../store/configureStore';
 
 
-const App = ({Component})=>{
+const App = ({Component,pageProps})=>{
     return (
-        <Component/>
+        <Component {...pageProps}/>
     )
 }
 
 App.propTypes = {
-    Component:PropTypes.elementType.isRequired
+    Component:PropTypes.elementType.isRequired,
+    pageProps:PropTypes.any
 }
 
 

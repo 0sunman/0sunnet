@@ -7,14 +7,20 @@ import UserProfile from "./UserProfile";
 import styled from "styled-components";
 
 import {useSelector} from "react-redux";
+import { createGlobalStyle } from "styled-components";
 
 const SearchInput = styled(Input.Search)`
     vertical-align:middle
 `
-
+const Global = createGlobalStyle`
+    .ant-row{ margin-right:0 !important; margin-left:0 !important }
+    .ant-col{padding-left:0 !important}
+    .ant-col{padding-right:0 !important}
+`
 const AppLayout = ({children}) =>{
-    const isLoggedIn = useSelector((state)=>state.user.isLoggedIn)
+    const {me} = useSelector(({user})=>user)
     return (<div>
+        <Global/>
         <Menu mode="horizontal">
             <Menu.Item>
                 <Link href="/"><a>홈</a></Link>
@@ -31,7 +37,7 @@ const AppLayout = ({children}) =>{
         </Menu>
         <Row gutter={8}>
             <Col xs={24} md={6}>
-                {isLoggedIn ? <UserProfile/> : <LoginForm/>}
+                {me ? <UserProfile/> : <LoginForm/>}
             </Col>
             <Col xs={24} md={12}>{children}</Col>
             <Col xs={24} md={6}><a href="https://0sun.net" target="_blank" rel="noreferrer noopener">영선</a></Col>

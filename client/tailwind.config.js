@@ -3,13 +3,20 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
-      marginTop:{
-        "10px":"10px"
+      colors:{
+        gray_1:"#090909",
+        gray_2:"#313131"
+      },
+      height:{
+        calc_100_44:"calc(100% - 44px)",
+      },
+      maxHeight:{
+        m750:"750px"
       }
+
     },
   },
   variants: {
     extend: {},
-  },
-  plugins: []
+  }
 }
