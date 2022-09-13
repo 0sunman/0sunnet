@@ -13,8 +13,8 @@ function addPostAPI(){
     return axios.post('/api/addpost');
 }
  
-function addCommentAPI(){
-    return axios.post(`/api/post/${id}/addcomment`);
+function addCommentAPI(data){
+    return axios.post(`/api/post/${data.postId}/comment`,data);
 }
  
 function* addPost(action){
