@@ -13,7 +13,7 @@ router.post('/signup',async (req,res)=>{
             }
         })
         if(exUser){
-            return res.status(403).send("이미 사용중인 이메일입니다.")
+            return res.status(403).send("이미 사용중인 이메일입니다1")
         }
         const hashedPassword = await bcrypt.hash(req.body.password, 2);
 
