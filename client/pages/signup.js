@@ -1,5 +1,6 @@
 import AppLayout from "../component/AppLayout.js"
 import Head from "next/head";
+import Router from "next/router";
 import {Button, Checkbox, Form, Input} from "antd";
 import { useCallback, useEffect, useState } from "react";
 import useInput from "../hooks/useInput.js";
@@ -19,7 +20,7 @@ import { SIGN_UP_REQUEST } from "../reducers/user.js";
  * **/
 const Signup = ({setLoggedIn}) => {
     const dispatch = useDispatch();
-    const {signUpLoading} = useSelector(({user})=>user)
+    const {signUpLoading, signUpDone, signUpError} = useSelector(({user})=>user)
 
     const [
         [email,onChangeEmail],
@@ -40,18 +41,23 @@ const Signup = ({setLoggedIn}) => {
     ]
     const data = {email,nickname,password}
     const onSubmitForm = useCallback(()=>{
-        if(password !== passwordCheck){ 
-            setPasswordError(true);
-            return;
+        try{
+            if(password !== passwordCheck){ 
+                setPasswordError(true);
+                return;
+            }
+            if(!term){
+                setTermError(true)
+                return;
+            }
+            dispatch({
+                type:SIGN_UP_REQUEST,
+                data:{email,password,nickname}
+            })
+        }catch(error){
+            console.log(error);
         }
-        if(!term){
-            setTermError(true)
-            return;
-        }
-        dispatch({
-            type:SIGN_UP_REQUEST,
-            data:{email,password,nickname}
-        })
+
 
         console.log( data)
 
@@ -68,6 +74,20 @@ const Signup = ({setLoggedIn}) => {
         setTerm(e.target.checked);
         setTermError(false)
     },[])
+
+    // 성공할 경우
+    useEffect(()=>{
+        if(signUpDone){
+            Router.push('/');
+        }
+    },[signUpDone]);
+
+    // 실패할 경우
+    useEffect(()=>{
+        if(signUpError){
+            alert(signUpError);
+        }
+    },[signUpError])
 
     return (<>
         <Head>

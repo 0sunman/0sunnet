@@ -104,7 +104,6 @@ export const removePost = (data) => ({
 
 const reducer = (state=initialState,action) =>{
     return produce(state,(draft)=>{
-        console.log(state.hasMorePost);
         switch (action.type){
             case LOAD_POSTS_REQUEST:
                 draft.loadPostsLoading = true;
