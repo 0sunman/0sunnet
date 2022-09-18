@@ -10,29 +10,28 @@ import {
 } from '../reducers/user';
 import { Result } from 'antd';
 
-function loginAPI(){
-    return axios.post('/api/login');
+function loginAPI(data){
+    return axios.post('/user/login',data);
 }
 function logoutAPI(){
-    return axios.post('/api/logout');
+    return axios.post('/user/logout');
 }
 function signupAPI(data){
     return axios.post('/user/signup',data);
 }
 function followAPI(){
-    return axios.post('/api/follow');
+    return axios.post('/user/follow');
 }
 function unfollowAPI(){
-    return axios.post('/api/unfollow');
+    return axios.post('/user/unfollow');
 }
 function* login(action){
     try{
-//        const result = yield call(loginAPI,  action.data);
-        console.log(action.data);
+        const result = yield call(loginAPI, action.data);
         yield delay(1000);
         yield put({
             type: LOG_IN_SUCCESS,
-            data: action.data
+            data: result.data
         })
     }catch(err){
         yield put({
@@ -45,7 +44,7 @@ function* login(action){
 
 function* logout(){
     try{
-       // const result = yield call(logoutAPI, action.data);
+        call(logoutAPI);
         yield put({
             type: LOG_OUT_SUCCESS,
          //   data: result.data

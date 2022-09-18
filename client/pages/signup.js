@@ -20,8 +20,12 @@ import { SIGN_UP_REQUEST } from "../reducers/user.js";
  * **/
 const Signup = ({setLoggedIn}) => {
     const dispatch = useDispatch();
-    const {signUpLoading, signUpDone, signUpError} = useSelector(({user})=>user)
-
+    const {signUpLoading, signUpDone, signUpError, me} = useSelector(({user})=>user)
+    useEffect(()=>{
+        if(me && me.id){
+            Router.replace("/"); // 뒤로가기시 그 페이지가 안나옴
+        }
+    },[me && me.id])
     const [
         [email,onChangeEmail],
         [nickname,onChangeNickname],
