@@ -1,5 +1,6 @@
 import {all, fork, call, takeLatest, put, throttle, delay} from 'redux-saga/effects'
 import axios from 'axios';
+axios.defaults.baseURL = "http://localhost:3065/"
 import {
     LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, 
     LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE,
@@ -16,7 +17,7 @@ function logoutAPI(){
     return axios.post('/api/logout');
 }
 function signupAPI(data){
-    return axios.post('http://localhost:3065/signup',data);
+    return axios.post('/user/signup',data);
 }
 function followAPI(){
     return axios.post('/api/follow');
@@ -58,17 +59,17 @@ function* logout(){
 
 }
 
-function* signup(){
+function* signup(action){
     try{
-        yield delay(1000);
         const result = yield call(signupAPI, action.data);
         yield put({
             type:SIGN_UP_SUCCESS,
 //            data:result.data
         })
-    }catch(e){
+    }catch(err){
         yield put({
             type:SIGN_UP_FAILURE,
+            data:err.response.data
         })
     }
 }
